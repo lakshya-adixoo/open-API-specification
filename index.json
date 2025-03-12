@@ -1,0 +1,237 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Sample API",
+      "description": "Perform api operations for users"
+    },
+    "paths": {
+      "/user/{userid}": {
+        "parameters": [
+          {
+            "name": "userid",
+            "description": "The unique identifier of the user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/userid"
+            }
+          }
+        ],
+        "get": {
+          "summary": "Read a user",
+          "responses": {
+            "200": {
+              "description": "The user corresponding to the provided `userid`",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/user"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "No user found for the provided `userid`",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Unexpected error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+          "delete": {
+          "summary": "Delete a user",
+          "responses": {
+            "200": {
+              "description": "The user corresponding to the provided `userid`",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/userid"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "No user found for the provided `userid`",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Unexpected error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users":{
+               "get": {
+          "summary": "Get all Users",
+          "responses": {
+            "200": {
+              "description": "Return the list of all users",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/users"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "No user found for the provided `userid`",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Unexpected error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+               "post": {
+          "summary": "Create Multiple Users",
+          "requestBody":
+          {
+            "$ref":"#/components/schemas/users"
+          },
+          "responses": {
+            "201": {
+              "description": "Return the list of all users",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/users"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "No user found for the provided `userid`",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Unexpected error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "userid": {
+          "description": "The unique identifier of a user",
+          "type": "string"
+        },
+        "user": {
+          "type": "object",
+          "required": [
+            "id",
+            "name",
+            "type"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/components/schemas/userid"
+            },
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "admin",
+                "editor",
+                "guest"
+              ]
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        },
+        "users":
+        {
+          "type":"array",
+          "items":
+          {
+            "$ref":"#/componenets/schemas/user"
+          }
+  
+        },
+        "Error": {
+          "type": "object",
+          "required": [
+            "message"
+          ],
+          "properties": {
+            "message": {
+              "description": "A human readable error message",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "ApiKey": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "X-Api-Key"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKey": []
+      }
+    ]
+  }
